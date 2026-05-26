@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Yogesh General Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Noto+Sans+Gujarati:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --blue-deep: #0a2463;
+      --blue-mid: #1e4db7;
+      --blue-light: #3a7bd5;
+      --blue-pale: #dceeff;
+      --gold: #f0c040;
+      --white: #ffffff;
+      --off-white: #f4f8ff;
+      --text-dark: #0d1b3e;
+      --text-mid: #2c3e70;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--off-white);
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 64px;
+      background: var(--blue-deep);
+      box-shadow: 0 2px 20px rgba(10,36,99,0.4);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold);
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── HERO (Page 1) ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: #020c1f;
+      overflow: hidden;
+      text-align: center;
+      padding: 80px 2rem 2rem;
+    }
+
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+
+    #hero > *:not(#hero-canvas):not(.wave-wrap):not(.orb):not(.grid-overlay) {
+      position: relative;
+      z-index: 2;
+    }
+
+    .wave-wrap {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 1;
+      line-height: 0;
+    }
+    .wave-wrap svg { display: block; width: 100%; }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      z-index: 0;
+      pointer-events: none;
+    }
+    .orb-1 { width: 500px; height: 500px; background: rgba(30,77,183,0.5); top: -120px; right: -120px; animation: orbFloat 9s ease-in-out infinite; }
+    .orb-2 { width: 350px; height: 350px; background: rgba(58,123,213,0.35); bottom: 60px; left: -80px; animation: orbFloat 11s ease-in-out infinite; animation-delay: -4s; }
+    .orb-3 { width: 280px; height: 280px; background: rgba(240,192,64,0.18); top: 38%; left: 48%; animation: orbFloat 7s ease-in-out infinite; animation-delay: -2s; }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-28px) scale(1.06); }
+    }
+
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(58,123,213,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(58,123,213,0.08) 1px, transparent 1px);
+      background-size: 60px 60px;
+      -webkit-mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 20%, transparent 100%);
+      mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 20%, transparent 100%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--blue-deep);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 100px;
+      margin-bottom: 1.6rem;
+      animation: fadeDown 0.7s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.1;
+      animation: fadeDown 0.7s 0.15s ease both;
+    }
+    .hero-title span { color: var(--gold); }
+
+    .hero-sub {
+      font-family: 'Noto Sans Gujarati', sans-serif;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      color: rgba(255,255,255,0.75);
+      margin-top: 1rem;
+      letter-spacing: 0.5px;
+      animation: fadeDown 0.7s 0.3s ease both;
+    }
+
+    .since-badge {
+      margin-top: 2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white);
+      padding: 10px 24px;
+      border-radius: 100px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      backdrop-filter: blur(6px);
+      animation: fadeDown 0.7s 0.45s ease both;
+    }
+    .since-badge .dot {
+      width: 8px; height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      animation: fadeDown 0.7s 0.6s ease both;
+    }
+    .hero-scroll .arrow {
+      width: 20px; height: 20px;
+      border-right: 2px solid rgba(255,255,255,0.4);
+      border-bottom: 2px solid rgba(255,255,255,0.4);
+      transform: rotate(45deg);
+      animation: bounce 1.4s infinite;
+    }
+
+    /* ── PRODUCTS (Page 2) ── */
+    #products {
+      padding: 100px 2rem 80px;
+      background: var(--off-white);
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+    .section-tag {
+      display: inline-block;
+      background: var(--blue-pale);
+      color: var(--blue-mid);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 100px;
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--blue-deep);
+      line-height: 1.2;
+    }
+    .section-title span { color: var(--blue-light); }
+    .section-line {
+      width: 60px; height: 4px;
+      background: var(--gold);
+      border-radius: 2px;
+      margin: 1rem auto 0;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 4px 24px rgba(10,36,99,0.07);
+      border: 1px solid rgba(10,36,99,0.07);
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--blue-mid), var(--blue-light));
+      border-radius: 16px 16px 0 0;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(10,36,99,0.13);
+    }
+    .product-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .product-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--blue-deep);
+      margin-bottom: 0.5rem;
+    }
+    .product-desc {
+      font-family: 'Noto Sans Gujarati', sans-serif;
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+    }
+
+    /* ── PHOTO (Page 3) ── */
+    #shop {
+      padding: 80px 2rem;
+      background: linear-gradient(180deg, var(--off-white) 0%, var(--blue-pale) 100%);
+    }
+
+    .address-wrapper {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .address-card {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 8px 40px rgba(10,36,99,0.10);
+      border: 1px solid rgba(10,36,99,0.08);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .address-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--blue-deep), var(--blue-light), var(--gold));
+    }
+    .address-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .address-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--blue-deep);
+      margin-bottom: 1rem;
+    }
+    .address-text {
+      font-family: 'Noto Sans Gujarati', sans-serif;
+      font-size: 1.05rem;
+      color: var(--text-mid);
+      line-height: 2;
+      letter-spacing: 0.3px;
+    }
+    .address-divider {
+      width: 50px; height: 3px;
+      background: var(--gold);
+      border-radius: 2px;
+      margin: 1.2rem auto;
+    }
+    .address-since {
+      font-size: 0.85rem;
+      color: var(--blue-light);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--blue-deep);
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
+    }
+    footer span { color: var(--gold); font-weight: 700; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50%       { transform: rotate(45deg) translateY(6px); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 1.2rem; }
+      .nav-links { gap: 1.2rem; }
+      .nav-links a { font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">Yogesh General Store</div>
+  <ul class="nav-links">
+    <a href="#hero">Home</a>
+    <a href="#products">Products</a>
+    <a href="#shop">Our Shop</a>
+  </ul>
+</nav>
+
+<!-- PAGE 1: HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="grid-overlay"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="hero-badge">✦ Trusted Since 1972 ✦</div>
+  <h1 class="hero-title">Yogesh<br/><span>General Store</span></h1>
+  <p class="hero-sub">સ્ટેશનરી શૉપ — આપના વિશ્વાસનું નામ</p>
+  <div class="since-badge">
+    <span class="dot"></span>
+    Stationery Shop Since 1972
+    <span class="dot"></span>
+  </div>
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="arrow"></div>
+  </div>
+  <div class="wave-wrap">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#f4f8ff"/>
+    </svg>
+  </div>
+</section>
+
+<!-- PAGE 2: PRODUCTS -->
+<section id="products">
+  <div class="section-header">
+    <div class="section-tag">Our Collection</div>
+    <h2 class="section-title">આમારી <span>Products</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="products-grid">
+
+    <div class="product-card">
+      <span class="product-icon">📚</span>
+      <div class="product-title">ધો. 1 થી 12 પુસ્તકો</div>
+      <p class="product-desc">ધોરણ 1 થી 12 ના તમામ વિષયોના GSEB પુસ્તકો અહીં ઉપલબ્ધ છે</p>
+    </div>
+
+    <div class="product-card">
+      <span class="product-icon">📖</span>
+      <div class="product-title">ગાઈડ & Notes</div>
+      <p class="product-desc">તમામ ધોરણ માટે ગાઈડ ઉપલબ્ધ છે</p>
+    </div>
+
+    <div class="product-card">
+      <span class="product-icon">🗂️</span>
+      <div class="product-title">Office Stationery</div>
+      <p class="product-desc">Files, Folders, Pens, Staplers, Calculators & Office ઉપયોગ ની તમામ ચીજ-વસ્તુ</p>
+    </div>
+
+    <div class="product-card">
+      <span class="product-icon">✏️</span>
+      <div class="product-title">Writing & Art Supplies</div>
+      <p class="product-desc">Pencils, Pens, Markers, Crayons, Colour Boxes, Sketch Pens & Drawing Sheets</p>
+    </div>
+
+    <div class="product-card">
+      <span class="product-icon">🎁</span>
+      <div class="product-title">Doms Gifting Kits</div>
+      <p class="product-desc">Doms ની સુંદર Gift Kits — Birthday, Prize Distribution & Special Occasions માટે</p>
+    </div>
+
+    <div class="product-card">
+      <span class="product-icon">🪔</span>
+      <div class="product-title">દિવાળી સાહિત્ય ના ચોપડા</div>
+      <p class="product-desc">દિવાળી to દિવાળી ના હિસાબ-કિતાબ ના ચોપડા — દર વર્ષે નવા</p>
+    </div>
+
+    <div class="product-card">
+      <span class="product-icon">📅</span>
+      <div class="product-title">Diary & Calendar</div>
+      <p class="product-desc">એપ્રિલ to March, જાન્યુઆરી to December — તમામ પ્રકારની Diary ઉપલબ્ધ</p>
+    </div>
+
+    <div class="product-card">
+      <span class="product-icon">🧾</span>
+      <div class="product-title">દેશી નામા ના ચોપડા</div>
+      <p class="product-desc">દેશી નામા, હિસાબ-વહી, ખાતાવહી & વ્યાપારી ઉપયોગ ના તમામ ચોપડા</p>
+    </div>
+
+    <div class="product-card">
+      <span class="product-icon">🛍️</span>
+      <div class="product-title">અને ઘણું બધું...</div>
+      <p class="product-desc">Geometry Boxes, Water Bottles, Calendars & ઘણી બધી Stationery Items!</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- PAGE 3: SHOP PHOTO -->
+<section id="shop">
+  <div class="section-header">
+    <div class="section-tag">Visit Us</div>
+    <h2 class="section-title">આમારી <span>Shop</span></h2>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="address-wrapper">
+    <div class="address-card">
+      <span class="address-icon">📍</span>
+      <div class="address-title">Yogesh General Store</div>
+      <div class="address-divider"></div>
+      <div class="address-text">
+        Jaampith Bazar, Radhanpuri<br/>
+        Dholka, Gujarat — 382225
+      </div>
+      <div class="address-divider"></div>
+      <div class="address-since">✦ Stationery Shop Since 1972 ✦</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2024 <span>Yogesh General Store</span> — Stationery Shop Since 1972</p>
+  <p style="margin-top:0.4rem; font-size:0.78rem; opacity:0.6;">Made with ❤️ for our valued customers</p>
+</footer>
+
+<script>
+  // Particle canvas
+  (function() {
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+    function resize() {
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    function mkParticle() {
+      return {
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.8 + 0.4,
+        dx: (Math.random() - 0.5) * 0.4,
+        dy: (Math.random() - 0.5) * 0.4,
+        alpha: Math.random() * 0.6 + 0.2
+      };
+    }
+    resize();
+    for (let i = 0; i < 130; i++) particles.push(mkParticle());
+    window.addEventListener('resize', () => { resize(); });
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(180,210,255,${p.alpha})`;
+        ctx.fill();
+        p.x += p.dx; p.y += p.dy;
+        if (p.x < 0 || p.x > W) p.dx *= -1;
+        if (p.y < 0 || p.y > H) p.dy *= -1;
+      });
+      // draw connecting lines
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 110) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(100,160,255,${0.18 * (1 - dist/110)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.product-card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease, box-shadow 0.25s, transform 0.25s';
+    observer.observe(card);
+  });
+</script>
+</body>
+</html>
